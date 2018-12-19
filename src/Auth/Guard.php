@@ -128,7 +128,6 @@ class Guard implements GuardInterface
             // using the attempt method.
             $result = false;
         }
-
         return $result;
     }
 
