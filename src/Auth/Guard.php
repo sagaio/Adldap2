@@ -115,10 +115,21 @@ class Guard implements GuardInterface
      */
     public function bindAsAdministrator()
     {
-        $this->bind(
-            $this->configuration->get('username'),
-            $this->configuration->get('password')
-        );
+        try {
+            $this->bind(
+                $this->configuration->get('username'),
+                $this->configuration->get('password')
+            );
+
+            $result = true;
+        } catch (BindException $e) {
+            // We'll catch the BindException here to allow
+            // developers to use a simple if / else
+            // using the attempt method.
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**
