@@ -617,8 +617,11 @@ class Builder
             ->whereHas($this->schema->objectClass())
             ->firstOrFail($columns);
 
-        // Reset the models query builder.
-        $model->setQuery($this->in($base));
+        // Reset the models query builder (in case a model is returned).
+        // Otherwise, we must be requesting a raw result.
+        if ($model instanceof Model) {
+            $model->setQuery($this->in($base));
+        }
 
         return $model;
     }
@@ -1387,7 +1390,7 @@ class Builder
      */
     public function escape($value, $ignore = '', $flags = 0)
     {
-        return Utilities::escape($value, $ignore, $flags);
+        return ldap_escape($value, $ignore, $flags);
     }
 
     /**
